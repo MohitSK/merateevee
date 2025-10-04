@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Playlist Uploader (Auto Detect + Manual Add)</title>
+<style>
+body { font-family: system-ui, Arial, sans-serif; max-width: 900px; margin: 24px auto; padding: 0 12px; }
+h1 { font-size: 1.4rem; }
+label { display:block; margin:10px 0 6px; font-weight:600; }
+input, select, button, textarea { width:100%; box-sizing:border-box; padding:10px; margin-bottom:12px; }
+textarea { min-height:260px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.btn { background:#111; color:#fff; border:0; border-radius:8px; cursor:pointer; padding:8px 14px; }
+.small { font-size:0.9rem; color:#444; }
+.ok { color:#0a7; }
+.err { color:#c00; }
+code { background:#f6f6f6; padding:2px 6px; border-radius:4px; }
+.flex { display:flex; gap:10px; align-items:center; flex-wrap: wrap; }
+.endpoint-list div { display:flex; align-items:center; gap:8px; margin:4px 0; }
+.endpoint-list input[type="checkbox"] { width:18px; height:18px; }
+.endpoint-list span { flex:1; font-size:0.95rem; }
+</style>
+</head>
+<body>
+
+<h1>Fetch Playlist (JSON or M3U) ➜ Merge ➜ Upload to GitHub</h1>
+
+<label>Choose Endpoints (select one or more)</label>
+<div id="endpoints" class="endpoint-list">
+  <div><input type="checkbox" value="https://raw.githubusercontent.com/mohitsk/merateevee/refs/heads/main/myz5"><span>Github MohitSK - Zee5 [M3U]</span><input type="number" min="1" class="order" placeholder="#" style="width:55px;"></div>
+  <div><input type="checkbox" value="https://raw.githubusercontent.com/mohitsk/merateevee/refs/heads/main/dinesh29-assorted"><span>Github MohitSK - Dinesh29 Assorted [M3U]</span><input type="number" min="1" class="order" placeholder="#" style="width:55px;"></div>
+  <div><input type="checkbox" value="https://raw.githubusercontent.com/alex8875/m3u/refs/heads/main/jstar.m3u"><span>Github Alex8875 jstar.m3u - JioTVPlus1 [M3U]</span><input type="number" min="1" class="order" placeholder="#" style="width:55px;"></div>
+  <div><input type="checkbox" value="https://raw.githubusercontent.com/alex8875/m3u/refs/heads/main/jtv.m3u"><span>Github Alex8875 jtv.m3u - JioTVPlus2 [M3U]</span><input type="number" min="1" class="order" placeholder="#" style="width:55px;"></div>
+  <div><input type="checkbox" value="https://raw.githubusercontent.com/alex8875/m3u/refs/heads/main/z5.m3u"><span>Github Alex8875 z5.m3u - Zee5[M3U]</span><input type="number" min="1" class="order" placeholder="#" style="width:55px;"></div>
+  <div><input type="checkbox" value="https://allinonereborn.xyz/jstrweb2/jio.php"><span>allinonereborn.xyz/jstrweb2/jio.php - JioTvPlus [JSON]</span><input type="number" min="1" class="order" placeholder="#" style="width:55px;"></div>
+  <div><input type="checkbox" value="https://teachub.strangled.net/10/m3u-proxy.php"><span>teachub.strangled.net/10/m3u-proxy.php - JioTVPlus [M3U]</span><input type="number" min="1" class="order" placeholder="#" style="width:55px;"></div>
+  <div><input type="checkbox" value="https://itsiptte.pages.dev/Opp.html"><span>PlayLivTv [M3U]</span><input type="number" min="1" class="order" placeholder="#" style="width:55px;"></div>
+
+</div>
+
+<label>Or enter a custom Endpoint URL</label>
+<input id="customEndpoint" placeholder="https://example.com/playlist.php"/>
+
+<label>Or paste your own Custom Playlist (M3U text)</label>
+<textarea id="customPlaylist" placeholder="#EXTM3U ... paste your custom content here"></textarea>
+
+<label>GitHub Repo (owner/name)</label>
+<input id="repo" placeholder="username/repo" value="MohitSK/merateevee"/>
+
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+  <div>
+    <label>Branch</label>
+    <input id="branch" value="main"/>
+  </div>
+  <div>
+    <label>Repo File Path</label>
+    <select id="filePath">
+		<option value="combinelist">Combine PlayList</option>
+		<option value="jlist">JioTvPlus PlayList</option>
+
+    </select>
+    <input id="customFilePath" placeholder="Or type custom path e.g. mylist.m3u"/>
+  </div>
+</div>
+
+<label>GitHub Token (fine-grained PAT)</label>
+<input id="token" type="password" placeholder="ghp_..." />
+
+<!-- === Buttons Area === -->
+<div class="flex">
+  <button class="btn" id="btnFetch">Fetch / Merge</button>
+  <button class="btn" id="btnUpload" disabled>Upload to GitHub</button>
+  <button class="btn" id="btnDownload" disabled>Download</button>
+</div>
+
+<div id="status" class="small"></div>
+
+<style>
+.copy-icon {
+  cursor: pointer;
+  margin-left: 6px;
+  font-size: 1.1rem;
+  color: #0a7;
+}
+.copy-icon:hover { color: #070; }
+</style>
+
+
+
+
+
+<label>Playlist Preview (Final)</label>
+<!-- <textarea id="output" readonly placeholder="#EXTM3U ..."></textarea> -->
+<textarea id="output" placeholder="#EXTM3U ..."></textarea>
+
+<script>
+function toBase64Utf8(str) {
+  return btoa(unescape(encodeURIComponent(str)));
+}
+
+// JSON → M3U converter
+function jsonToM3U(data) {
+  const lines = [];
+  lines.push("#EXTM3U");
+  lines.push('#EXTM3U x-tvg-url="https://avkb.short.gy/jioepg.xml.gz"\n');
+  for (const ch of data) {
+    const name = ch?.name ?? "Unknown";
+    const logo = ch?.logo ?? "";
+    const group = ch?.category ?? "Group";
+    const mpd = ch?.mpd ?? "";
+    const token = ch?.token ?? "";
+    const userAgent = ch?.userAgent ?? "";
+    const drm = ch?.drm ?? {};
+
+    lines.push(`#EXTINF:-1 group-title="${group}" tvg-logo="${logo}",${name}`);
+    if (drm && typeof drm === "object") {
+      for (const [kid, key] of Object.entries(drm)) {
+        lines.push("#KODIPROP:inputstream.adaptive.license_type=clearkey");
+        lines.push(`#KODIPROP:inputstream.adaptive.license_key=${kid}:${key}`);
+      }
+    }
+    if (userAgent) lines.push(`#EXTVLCOPT:http-user-agent=${userAgent}`);
+    if (token) lines.push(`#EXTHTTP:{"cookie":"${token}"}`);
+    const url = token ? `${mpd}?${token}&xxx=%7Ccookie=${encodeURIComponent(token)}` : mpd;
+    lines.push(url, "");
+  }
+  return lines.join("\n");
+}
+
+// Auto detect: try JSON, else fallback to text
+async function fetchAndDetect(url) {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error("Fetch failed: " + res.status);
+  const text = await res.text();
+  try {
+    const json = JSON.parse(text);
+    return jsonToM3U(json);
+  } catch {
+    return text; // already M3U
+  }
+}
+
+const elRepo = document.getElementById("repo");
+const elBranch = document.getElementById("branch");
+const elFilePath = document.getElementById("filePath");
+const elCustomFilePath = document.getElementById("customFilePath");
+const elCustomEndpoint = document.getElementById("customEndpoint");
+const elCustomPlaylist = document.getElementById("customPlaylist");
+const elToken = document.getElementById("token");
+const elOutput = document.getElementById("output");
+const elStatus = document.getElementById("status");
+const btnFetch = document.getElementById("btnFetch");
+const btnCopy = document.getElementById("btnCopy");
+const btnDownload = document.getElementById("btnDownload");
+const btnUpload = document.getElementById("btnUpload");
+
+
+let lastURL = "";
+
+btnFetch.addEventListener("click", async () => {
+  try {
+    const repo = elRepo.value.trim();
+    const branch = elBranch.value.trim();
+    const token = elToken.value.trim();
+    let path = elCustomFilePath.value.trim() || elFilePath.value.trim();
+
+    // Collect endpoints
+    <!-- let checked = Array.from(document.querySelectorAll("#endpoints input:checked")).map(el=>el.value); -->
+	let checked = Array.from(document.querySelectorAll("#endpoints div"))
+	  .filter(div => div.querySelector('input[type="checkbox"]').checked)
+	  .map(div => ({
+		  url: div.querySelector('input[type="checkbox"]').value,
+		  order: parseInt(div.querySelector('.order')?.value || 9999, 10)
+	  }))
+	  .sort((a, b) => a.order - b.order)
+	  .map(item => item.url);
+
+    if (elCustomEndpoint.value.trim()) checked.push(elCustomEndpoint.value.trim());
+
+    elOutput.value = ""; // clear preview
+    if (!checked.length && !elCustomPlaylist.value.trim())
+      throw new Error("Select endpoint(s) or enter custom playlist content.");
+    if (!repo.includes("/")) throw new Error('Repo must be "owner/name".');
+
+    elStatus.textContent = "Fetching and merging playlists...";
+    let merged = "";
+
+    for (const url of checked) {
+      const part = await fetchAndDetect(url);
+      merged += part + "\n";
+    }
+
+    if (elCustomPlaylist.value.trim()) {
+      merged += "\n# --- Custom Playlist ---\n" + elCustomPlaylist.value.trim() + "\n";
+    }
+
+    elOutput.value = merged;
+    elStatus.innerHTML = "<span class='ok'>✅ Fetched successfully. Review or edit before uploading.</span>";
+    btnUpload.disabled = false;
+    btnDownload.disabled = false;
+
+  } catch (err) {
+    elStatus.innerHTML = `<span class="err">❌ ${err.message}</span>`;
+  }
+});
+
+btnUpload.addEventListener("click", async () => {
+  try {
+    const repo = elRepo.value.trim();
+    const branch = elBranch.value.trim();
+    const token = elToken.value.trim();
+    let path = elCustomFilePath.value.trim() || elFilePath.value.trim();
+    const merged = elOutput.value.trim();
+
+    if (!merged) throw new Error("No content to upload. Fetch or enter data first.");
+    if (!repo.includes("/")) throw new Error('Repo must be "owner/name".');
+    if (!token) throw new Error("Enter GitHub token.");
+
+    elStatus.textContent = "Uploading to GitHub...";
+    const headers = {
+      "Accept": "application/vnd.github+json",
+      "Authorization": `Bearer ${token}`,
+      "X-GitHub-Api-Version": "2022-11-28"
+    };
+    let sha = null;
+    const getUrl = `https://api.github.com/repos/${repo}/contents/${encodeURIComponent(path)}?ref=${branch}`;
+    const getRes = await fetch(getUrl, { headers });
+    if (getRes.status === 200) {
+      const meta = await getRes.json(); sha = meta.sha;
+    } else if (getRes.status !== 404) {
+      throw new Error("Check failed: " + getRes.status);
+    }
+
+    const payload = { message: "Manual upload", content: toBase64Utf8(merged), branch };
+    if (sha) payload.sha = sha;
+
+    const putUrl = `https://api.github.com/repos/${repo}/contents/${encodeURIComponent(path)}`;
+    const putRes = await fetch(putUrl, { method: "PUT", headers, body: JSON.stringify(payload) });
+    if (!putRes.ok) throw new Error("Upload failed: " + putRes.status + " " + (await putRes.text()));
+
+    lastURL = `https://raw.githubusercontent.com/${repo}/${branch}/${path}`;
+    elStatus.innerHTML = `
+      <span class="ok">
+        ✅ Uploaded to GitHub.<br>
+        Permanent URL: <code id="finalURL">${lastURL}</code>
+        <span class="copy-icon" id="copyIcon" title="Copy to Clipboard">📋</span>
+      </span>`;
+  } catch (err) {
+    elStatus.innerHTML = `<span class="err">❌ ${err.message}</span>`;
+  }
+});
+
+
+document.addEventListener("click", (e) => {
+  if (e.target && e.target.id === "copyIcon") {
+    navigator.clipboard.writeText(lastURL);
+    e.target.textContent = "✅";
+    setTimeout(() => (e.target.textContent = "📋"), 1500);
+  }
+});
+
+
+btnDownload.addEventListener("click", () => {
+  const content = elOutput.value;
+  if (!content) return;
+  const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = elCustomFilePath.value.trim() || elFilePath.value.trim() || "playlist.m3u";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+});
+// Auto-fill saved token if available
+window.addEventListener("DOMContentLoaded", () => {
+  const savedToken = localStorage.getItem("github_token");
+  if (savedToken) document.getElementById("token").value = savedToken;
+});
+
+// Save token after first use
+document.getElementById("token").addEventListener("change", (e) => {
+  localStorage.setItem("github_token", e.target.value);
+});
+
+</script>
+</body>
+</html>
