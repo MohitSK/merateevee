@@ -43,8 +43,7 @@ code { background:#f6f6f6; padding:2px 6px; border-radius:4px; }
 
 <label>Or paste your own Custom Playlist (M3U text)</label>
 <textarea id="customPlaylist" placeholder="#EXTM3U ... paste your custom content here"></textarea>
-// --- Hard-coded default M3U content ---
-	
+
 <label>GitHub Repo (owner/name)</label>
 <input id="repo" placeholder="username/repo" value="MohitSK/merateevee"/>
 
@@ -95,6 +94,7 @@ code { background:#f6f6f6; padding:2px 6px; border-radius:4px; }
 <textarea id="output" placeholder="#EXTM3U ..."></textarea>
 
 <script>
+// --- Hard-coded default M3U content ---
 const defaultM3U = ```#EXTM3U
 #EXTINF:-1 group-title="Hindi Movies" tvg-logo="https://static.wikia.nocookie.net/logopedia/images/d/d5/Bollywood_Clasic_%282018%29.svg/revision/latest?cb=20181116224354",CLASSIC BOLLYWOOD
 https://d35j504z0x2vu2.cloudfront.net:443/v1/master/0bc8e8376bd8417a1b6761138aa41c26c7309312/bollywood-classic/manifest.m3u8
@@ -300,6 +300,7 @@ document.getElementById("token").addEventListener("change", (e) => {
 </script>
 </body>
 </html>
+
 
 
 
