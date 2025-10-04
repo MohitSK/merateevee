@@ -2,7 +2,7 @@
 #EXTM3U
 
 #EXTINF:-1 tvg-id="0-9-zeetvhd" group-title="Entertainment" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Zee_TV_HD.png",Zee TV HD
-https://z5ak-cmaflive.zee5.com/cmaf/live/2105531/ZeeTVHDMSLELE/index-connected.m3u8?hdntl=exp=1759667612~acl=%2f*~data=hdntl~hmac=414c6f8e7cbb13cabae9c3aa8a31351aa47f530cf0bc7a1009fe8dbb31b49ad5
+https://z5ak-cmaflive.zee5.com/cmaf/live/2105531/ZeeTVHDMSLELE/index.m3u8?hdntl=exp=1759667612~acl=%2f*~data=hdntl~hmac=414c6f8e7cbb13cabae9c3aa8a31351aa47f530cf0bc7a1009fe8dbb31b49ad5
 
 #EXTINF:-1 group-title="Hindi Movies" tvg-logo="https://static.wikia.nocookie.net/logopedia/images/d/d5/Bollywood_Clasic_%282018%29.svg/revision/latest?cb=20181116224354",CLASSIC BOLLYWOOD
 https://d35j504z0x2vu2.cloudfront.net:443/v1/master/0bc8e8376bd8417a1b6761138aa41c26c7309312/bollywood-classic/manifest.m3u8
