@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Simple M3U Merger + GitHub Uploader</title>
+<meta name="theme-color" content="#0d6efd" />
+<style>
+:root {
+  --bg:#f9fafb;--card:#fff;--text:#1f2937;--muted:#6b7280;--border:#e5e7eb;
+  --primary:#0d6efd;--primary-600:#0b5ed7;--success-bg:#e9f9ee;--success-text:#127c2d;
+  --error-bg:#fde8e8;--error-text:#b42318;--shadow:0 6px 18px rgba(0,0,0,.08);--radius:12px;
+}
+@media(prefers-color-scheme:dark){
+  :root{--bg:#0b0d12;--card:#12151c;--text:#e5e7eb;--muted:#9aa3b2;--border:#1f2430;
+  --primary:#3b82f6;--primary-600:#2563eb;--success-bg:#0f2b18;--success-text:#27d86a;
+  --error-bg:#2a1515;--error-text:#ff6b6b;--shadow:0 8px 20px rgba(0,0,0,.3);}
+}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,sans-serif;background:var(--bg);color:var(--text);}
+.container{max-width:960px;margin:24px auto;padding:0 16px;}
+h1.title{text-align:center;font-weight:800;letter-spacing:.2px;margin:8px 0 18px;font-size:clamp(20px,3.2vw,28px);}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+box-shadow:var(--shadow);padding:16px;margin-bottom:14px;}
+label{font-weight:650;font-size:.93rem;margin-bottom:6px;display:inline-block;}
+input,textarea{width:100%;box-sizing:border-box;font:500 .95rem ui-monospace,Menlo,Consolas,monospace;
+color:var(--text);background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:11px 12px;}
+textarea{min-height:260px;resize:vertical;}
+button{appearance:none;border:none;border-radius:10px;padding:10px 16px;font-weight:700;letter-spacing:.2px;
+color:#fff;background:var(--primary);cursor:pointer;transition:transform .05s,background .18s,box-shadow .18s;
+box-shadow:0 4px 10px rgba(13,110,253,.2);}
+button:hover{background:var(--primary-600);}button:active{transform:translateY(1px);}
+button:disabled{background:#9aa3b2;cursor:not-allowed;box-shadow:none;}
+.btn-outline{background:transparent;color:var(--text);border:1px solid var(--border);box-shadow:none;}
+.btn-outline:hover{background:rgba(127,127,127,.08);}
+.button-bar{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;}
+@media(max-width:600px){button{flex:1 1 45%;font-size:.95rem;}}
+.advanced-toggle{display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--primary);
+color:#fff;border-radius:10px;cursor:pointer;user-select:none;width:max-content;box-shadow:0 4px 10px rgba(13,110,253,.2);margin-bottom:10px;}
+.chev{transition:transform .18s;} .chev.open{transform:rotate(90deg);}
+#advanced{display:none;}
+#status{display:none;margin-top:8px;border-radius:10px;padding:10px 12px;font-size:.98rem;align-items:center;gap:10px;}
+#status.success{display:flex;background:var(--success-bg);color:var(--success-text);}
+#status.error{display:flex;background:var(--error-bg);color:var(--error-text);}
+#status .right{margin-left:auto;display:flex;align-items:center;gap:8px;}
+.copy{cursor:pointer;width:22px;height:22px;display:inline-grid;place-items:center;border-radius:6px;
+color:var(--primary);border:1px solid var(--border);background:transparent;transition:background .18s,color .18s,border-color .18s;}
+.copy:hover{background:rgba(13,110,253,.1);}
+.copy.copied{color:var(--success-text);border-color:transparent;background:rgba(39,216,106,.15);}
+.muted{color:var(--muted);font-size:.92rem;display:flex;align-items:center;gap:6px;}
+.section-title{font-weight:800;margin:0 0 8px;font-size:1.05rem;}
+.footnote{text-align:center;color:var(--muted);font-size:.9rem;margin-top:10px;}
+</style>
+</head>
+<body>
+<div class="container">
+<h1 class="title">Simple M3U Merger + GitHub Uploader</h1>
+
+<!-- SOURCES -->
+<div class="card">
+<p class="section-title">Sources</p>
+<label>Endpoints (comma separated)</label>
+<input id="endpoints" type="text"
+  value="https://raw.githubusercontent.com/alex8875/m3u/refs/heads/main/jtv.m3u, https://raw.githubusercontent.com/alex8875/m3u/refs/heads/main/z5.m3u">
+<div class="button-bar" style="margin-top:12px">
+  <button id="mergeBtn">Fetch & Merge</button>
+</div>
+</div>
+
+<!-- ADVANCED + TOKEN -->
+<div class="card">
+<div style="display:flex;justify-content:space-between;align-items:center;">
+  <div class="advanced-toggle" id="toggleAdv"><span class="chev" id="chev">▶</span><span>Advanced Options</span></div>
+  <button id="clearTokenBtn" class="btn-outline" style="height:40px;">Forget Saved Token</button>
+</div>
+
+<div id="advanced">
+  <label>GitHub Repo (owner/repo)</label><input id="repo" type="text" value="mohitsk/merateevee">
+  <label>File Path in Repo</label><input id="filepath" type="text" value="mergedlist">
+  <label>Branch</label><input id="branch" type="text" value="main">
+</div>
+
+<div style="margin-top:10px">
+  <label>GitHub Token (stored locally)</label>
+  <input id="token" type="password" placeholder="ghp_xxxxxxxx">
+  <div class="muted"><span>🔒</span><span>Token is saved only in your browser (localStorage). It never leaves your device.</span></div>
+  <div style="margin-top:10px;text-align:center;">
+    <button id="uploadBtn" disabled>Upload to GitHub</button>
+  </div>
+</div>
+
+<div id="status"></div>
+</div>
+
+<!-- RESULT -->
+<div class="card">
+<p class="section-title">Result:</p>
+<textarea id="output" placeholder="#EXTM3U ..."></textarea>
+<div style="text-align:center;margin-top:10px;">
+  <button id="downloadBtn" disabled>Download</button>
+</div>
+</div>
+
+<p class="footnote">Tip: Keep your GitHub Raw URL static and link it to your OTT player.</p>
+</div>
+
+<script>
+const adv=document.getElementById("advanced"),chev=document.getElementById("chev");
+document.getElementById("toggleAdv").onclick=()=>{const s=adv.style.display!=="block";adv.style.display=s?"block":"none";chev.classList.toggle("open",s);chev.textContent=s?"▼":"▶";};
+function jsonToM3U(j){let o="";for(const c of j){const n=c.name||"Unknown",l=c.logo||"",g=c.category||"Group",m=c.mpd||"",t=c.token||"",u=c.userAgent||"",d=c.drm||{};
+o+=`#EXTINF:-1 group-title="${g}" tvg-logo="${l}",${n}\n`;for(const[k,v]of Object.entries(d)){o+=`#KODIPROP:inputstream.adaptive.license_type=clearkey\n#KODIPROP:inputstream.adaptive.license_key=${k}:${v}\n`;}
+if(u)o+=`#EXTVLCOPT:http-user-agent=${u}\n`;if(t)o+=`#EXTHTTP:{"cookie":"${t}"}\n`;const url=t?`${m}?${t}&xxx=%7Ccookie=${t}`:m;o+=`${url}\n\n`;}
+return o;}
+function showStatus(m,e=false,u=null){const s=document.getElementById("status");s.className=e?"error":"success";const i=e?"⚠️":"✅";let h=`<span>${i}</span><span>${m}</span>`;
+if(u){const id="copy"+Date.now();h+=`<span class="right"><a href="${u}" target="_blank">${u}</a><button class="copy" id="${id}">📋</button></span>`;s.innerHTML=h;
+const b=document.getElementById(id);b.onclick=async()=>{await navigator.clipboard.writeText(u);b.textContent="✅";b.classList.add("copied");
+setTimeout(()=>{b.textContent="📋";b.classList.remove("copied");},1800);};}
+else s.innerHTML=h;s.style.display="flex";}
+async function fetchAndMerge(){const urls=document.getElementById("endpoints").value.split(",").map(u=>u.trim()).filter(Boolean),o=document.getElementById("output");
+if(!urls.length)return showStatus("Enter at least one endpoint.",true);o.value="#EXTM3U\n";
+for(const u of urls){o.value+=`\n# --- Source: ${u} ---\n`;try{const r=await fetch(u),t=await r.text();const c=(t.trim()[0]||"");if(c=="["||c=="{"){try{o.value+=jsonToM3U(JSON.parse(t));}catch{o.value+="# --- Invalid JSON ---\n";}}
+else o.value+=t.trim()+"\n";}catch(e){o.value+=`# --- Failed: ${e.message} ---\n`;}}
+document.getElementById("downloadBtn").disabled=false;document.getElementById("uploadBtn").disabled=false;showStatus("✅ Merge complete. Ready to upload or download.");}
+document.getElementById("mergeBtn").onclick=fetchAndMerge;
+document.getElementById("downloadBtn").onclick=()=>{const b=new Blob([document.getElementById("output").value],{type:"text/plain"});
+const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="merged.m3u";a.click();};
+async function uploadToGitHub(){const r=document.getElementById("repo").value.trim(),p=document.getElementById("filepath").value.trim()||"merged.m3u",
+b=document.getElementById("branch").value.trim()||"main",t=document.getElementById("token").value.trim(),c=document.getElementById("output").value.trim();
+if(!r||!t||!c)return showStatus("❌ Missing repo / token / content.",true);localStorage.setItem("github_token",t);
+const base64=btoa(unescape(encodeURIComponent(c))),h={"Accept":"application/vnd.github+json","Authorization":`Bearer ${t}`,"X-GitHub-Api-Version":"2022-11-28"};
+let sha=null;const g=await fetch(`https://api.github.com/repos/${r}/contents/${encodeURIComponent(p)}?ref=${b}`,{headers:h});if(g.status===200){const j=await g.json();sha=j.sha;}
+const payload={message:"Update merged.m3u",content:base64,branch:b};if(sha)payload.sha=sha;
+const put=await fetch(`https://api.github.com/repos/${r}/contents/${encodeURIComponent(p)}`,{method:"PUT",headers:h,body:JSON.stringify(payload)});
+if(!put.ok)return showStatus("❌ Upload failed: "+put.status,true);const raw=`https://raw.githubusercontent.com/${r}/${b}/${p}`;
+showStatus("✅ Uploaded successfully!",false,raw);}
+document.getElementById("uploadBtn").onclick=uploadToGitHub;
+window.addEventListener("DOMContentLoaded",()=>{const s=localStorage.getItem("github_token");if(s)document.getElementById("token").value=s;});
+document.getElementById("clearTokenBtn").onclick=()=>{localStorage.removeItem("github_token");document.getElementById("token").value="";
+showStatus("🗑️ Token removed from localStorage.",false);};
+</script>
+</body>
+</html>
