@@ -1,0 +1,33 @@
+name: Auto Update M3U
+
+on:
+  workflow_dispatch:      # run manually from Actions tab
+  schedule:
+    - cron: '0 */6 * * *'  # every 6 hours (UTC)
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1) Get your repo
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2) Download merged playlist from your PHP endpoint (stored in secret)
+      - name: Fetch merged playlist
+        env:
+          FILE_URL: ${{ secrets.MERGED_FILE_URL }}
+        run: |
+          echo "Fetching from: $FILE_URL"
+          curl -L -o mergedbyphp "$FILE_URL"
+          echo "✅ Downloaded mergedbyphp"
+
+      # 3) Commit and push if there are changes
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add mergedbyphp
+          git commit -m "Auto update mergedbyphp [$(date '+%Y-%m-%d %H:%M:%S')]" || echo "No changes to commit"
+          git push
