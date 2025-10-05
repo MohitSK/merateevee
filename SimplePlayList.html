@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>M3U Merger + GitHub Upload</title>
+<style>
+body { font-family: system-ui, sans-serif; padding:20px; background:#f8f8f8; }
+textarea, input[type=text], input[type=password] {
+  width:100%; font-family:monospace; padding:8px; box-sizing:border-box;
+}
+textarea { height:280px; }
+button { margin:6px 4px; padding:8px 14px; font-size:1rem; cursor:pointer; }
+label { font-weight:600; }
+.notice { font-size:0.9em; color:#555; margin-top:6px; }
+</style>
+</head>
+<body>
+<h2>Simple M3U Merger + GitHub Uploader</h2>
+
+<label>Endpoints (comma separated)</label><br>
+<input id="endpoints" type="text"
+  value="https://raw.githubusercontent.com/alex8875/m3u/refs/heads/main/jtv.m3u, https://raw.githubusercontent.com/alex8875/m3u/refs/heads/main/z5.m3u"><br>
+
+<button id="mergeBtn">Fetch & Merge</button>
+<button id="downloadBtn" disabled>Download</button>
+<hr>
+
+<label>GitHub Repo ( owner/repo )</label><br>
+<input id="repo" type="text" value="mohitsk/merateevee"><br>
+<label>File Path in Repo</label><br>
+<input id="filepath" type="text" value="mergedlist"><br>
+<label>Branch</label><br>
+<input id="branch" type="text" value="main"><br>
+<label>GitHub Token (stored locally)</label><br>
+<input id="token" type="password" placeholder="ghp_xxxxxxxx"><br>
+<div class="notice">🔒 Token is saved only in your browser (localStorage). It never leaves your device.</div>
+
+<button id="uploadBtn" disabled>Upload to GitHub</button>
+<button id="clearTokenBtn">Forget Saved Token</button>
+
+<h3>Result:</h3>
+<textarea id="output" placeholder="#EXTM3U ..."></textarea>
+
+<script>
+// ---------- Convert JSON → M3U ----------
+function jsonToM3U(json) {
+  let out = "";
+  for (const ch of json) {
+    const name = ch.name || "Unknown";
+    const logo = ch.logo || "";
+    const group = ch.category || "Group";
+    const mpd = ch.mpd || "";
+    const token = ch.token || "";
+    const ua = ch.userAgent || "";
+    const drm = ch.drm || {};
+
+    out += `#EXTINF:-1 group-title="${group}" tvg-logo="${logo}",${name}\n`;
+    for (const [kid, key] of Object.entries(drm)) {
+      out += `#KODIPROP:inputstream.adaptive.license_type=clearkey\n`;
+      out += `#KODIPROP:inputstream.adaptive.license_key=${kid}:${key}\n`;
+    }
+    if (ua) out += `#EXTVLCOPT:http-user-agent=${ua}\n`;
+    if (token) out += `#EXTHTTP:{"cookie":"${token}"}\n`;
+    const url = token ? `${mpd}?${token}&xxx=%7Ccookie=${token}` : mpd;
+    out += `${url}\n\n`;
+  }
+  return out;
+}
+
+// ---------- Merge ----------
+async function fetchAndMerge() {
+  const urls = document.getElementById("endpoints").value
+                .split(",").map(u=>u.trim()).filter(u=>u);
+  const out = document.getElementById("output");
+  if (!urls.length) return alert("Enter at least one endpoint.");
+  out.value = "#EXTM3U\n";
+
+  for (const url of urls) {
+    out.value += `\n# --- Source: ${url} ---\n`;
+    try {
+      const r = await fetch(url);
+      const t = await r.text();
+      const c = t.trim()[0];
+      if (c === "[" || c === "{") {
+        try { out.value += jsonToM3U(JSON.parse(t)); }
+        catch { out.value += "# --- Invalid JSON ---\n"; }
+      } else out.value += t.trim() + "\n";
+    } catch(e){ out.value += `# --- Failed: ${e.message} ---\n`; }
+  }
+  document.getElementById("downloadBtn").disabled = false;
+  document.getElementById("uploadBtn").disabled = false;
+}
+
+document.getElementById("mergeBtn").onclick = fetchAndMerge;
+
+// ---------- Download ----------
+document.getElementById("downloadBtn").onclick = () => {
+  const blob = new Blob([document.getElementById("output").value],
+                        {type:"text/plain"});
+  const a = Object.assign(document.createElement("a"), {
+    href: URL.createObjectURL(blob),
+    download: "merged.m3u"
+  });
+  a.click();
+};
+
+// ---------- Upload to GitHub ----------
+async function uploadToGitHub() {
+  const repo = document.getElementById("repo").value.trim();
+  const path = document.getElementById("filepath").value.trim() || "merged.m3u";
+  const branch = document.getElementById("branch").value.trim() || "main";
+  const token = document.getElementById("token").value.trim();
+  const content = document.getElementById("output").value.trim();
+
+  if (!repo || !token || !content)
+    return alert("Missing repo / token / content.");
+
+  // Save token locally for future use
+  localStorage.setItem("github_token", token);
+
+  const base64 = btoa(unescape(encodeURIComponent(content)));
+  const headers = {
+    "Accept": "application/vnd.github+json",
+    "Authorization": `Bearer ${token}`,
+    "X-GitHub-Api-Version": "2022-11-28"
+  };
+
+  const getUrl = `https://api.github.com/repos/${repo}/contents/${encodeURIComponent(path)}?ref=${branch}`;
+  let sha = null;
+  const getRes = await fetch(getUrl, {headers});
+  if (getRes.status === 200) {
+    const meta = await getRes.json();
+    sha = meta.sha;
+  }
+
+  const payload = { message:"Update merged.m3u", content:base64, branch };
+  if (sha) payload.sha = sha;
+
+  const putUrl = `https://api.github.com/repos/${repo}/contents/${encodeURIComponent(path)}`;
+  const putRes = await fetch(putUrl, {method:"PUT", headers, body:JSON.stringify(payload)});
+
+  if (!putRes.ok) return alert("Upload failed: "+putRes.status);
+  const rawURL = `https://raw.githubusercontent.com/${repo}/${branch}/${path}`;
+  alert("✅ Uploaded successfully!\n\n" + rawURL);
+}
+
+// ---------- Restore token from localStorage ----------
+window.addEventListener("DOMContentLoaded", () => {
+  const saved = localStorage.getItem("github_token");
+  if (saved) {
+    document.getElementById("token").value = saved;
+  }
+});
+
+// ---------- Forget token ----------
+document.getElementById("clearTokenBtn").onclick = () => {
+  localStorage.removeItem("github_token");
+  document.getElementById("token").value = "";
+  alert("🗑️ Token removed from localStorage.");
+};
+
+document.getElementById("uploadBtn").onclick = uploadToGitHub;
+</script>
+</body>
+</html>
