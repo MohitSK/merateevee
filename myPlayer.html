@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M3U Playlist Player</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.3/hls.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.11/shaka-player.compiled.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white min-h-screen">
+    <div class="max-w-7xl mx-auto p-4 md:p-6">
+        <!-- Header -->
+        <div class="text-center mb-6">
+            <h1 class="text-3xl md:text-4xl font-bold mb-2">
+                <i class="fas fa-tv mr-2"></i>M3U Playlist Player
+            </h1>
+            <p class="text-gray-400 text-sm">
+                HLS.js for non-DRM | Shaka Player for DRM content (ClearKey, Widevine)
+            </p>
+        </div>
+
+        <!-- Upload Section -->
+        <div class="bg-gray-800 rounded-lg p-4 md:p-6 mb-6 border border-gray-700">
+            <div class="space-y-4">
+                <!-- File Upload -->
+                <div class="text-center">
+                    <label class="inline-flex items-center gap-3 cursor-pointer bg-blue-600 hover:bg-blue-700 transition-colors rounded-lg py-3 px-6">
+                        <i class="fas fa-upload"></i>
+                        <span class="font-semibold">Upload M3U File</span>
+                        <input type="file" id="fileInput" accept=".m3u,.m3u8,.txt" class="hidden">
+                    </label>
+                </div>
+
+                <!-- Divider -->
+                <div class="flex items-center gap-4">
+                    <div class="flex-1 border-t border-gray-600"></div>
+                    <span class="text-gray-400 text-sm">OR</span>
+                    <div class="flex-1 border-t border-gray-600"></div>
+                </div>
+
+                <!-- URL Input -->
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <input 
+                        type="text" 
+                        id="urlInput" 
+                        placeholder="Enter M3U playlist URL"
+                        class="flex-1 px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                    <button 
+                        id="loadUrlBtn" 
+                        class="flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 transition-colors rounded-lg py-3 px-6 font-semibold whitespace-nowrap"
+                    >
+                        <i class="fas fa-film"></i>
+                        <span>Load from URL</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div id="stats" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 hidden">
+            <div class="bg-gray-800 rounded-lg p-4 border border-gray-700 text-center">
+                <div id="statTotal" class="text-2xl font-bold text-blue-400">0</div>
+                <div class="text-sm text-gray-400">Total</div>
+            </div>
+            <div class="bg-gray-800 rounded-lg p-4 border border-gray-700 text-center">
+                <div id="statPlayable" class="text-2xl font-bold text-green-400">0</div>
+                <div class="text-sm text-gray-400">Playable</div>
+            </div>
+            <div class="bg-gray-800 rounded-lg p-4 border border-gray-700 text-center">
+                <div id="statDrm" class="text-2xl font-bold text-red-400">0</div>
+                <div class="text-sm text-gray-400">DRM</div>
+            </div>
+            <div class="bg-gray-800 rounded-lg p-4 border border-gray-700 text-center">
+                <div id="statGroups" class="text-2xl font-bold text-purple-400">0</div>
+                <div class="text-sm text-gray-400">Categories</div>
+            </div>
+        </div>
+
+        <!-- Error Message -->
+        <div id="errorMsg" class="bg-red-900/50 border border-red-500 rounded-lg p-4 mb-6 hidden">
+            <div class="flex items-start gap-3">
+                <i class="fas fa-exclamation-circle text-red-300 mt-0.5"></i>
+                <p id="errorText" class="text-red-200 text-sm"></p>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Playlist -->
+            <div class="bg-gray-800 rounded-lg border border-gray-700 overflow-hidden">
+                <div class="bg-gray-900 p-4 border-b border-gray-700 flex items-center justify-between">
+                    <h2 class="text-xl font-semibold">Channels</h2>
+                    <select id="groupFilter" class="bg-gray-700 text-white px-3 py-1 rounded text-sm border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="all">All Categories</option>
+                    </select>
+                </div>
+                <div id="playlistContainer" class="overflow-y-auto" style="max-height: 600px;">
+                    <div class="p-8 text-center text-gray-500">
+                        <i class="fas fa-upload text-6xl mb-4 opacity-30"></i>
+                        <p class="font-medium">No playlist loaded</p>
+                        <p class="text-sm mt-2">Upload an M3U file to get started</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Player -->
+            <div class="bg-gray-800 rounded-lg border border-gray-700 overflow-hidden">
+                <div class="bg-gray-900 p-4 border-b border-gray-700">
+                    <h2 class="text-xl font-semibold">Player</h2>
+                </div>
+                <div class="p-4 md:p-6">
+                    <div id="playerInfo" class="mb-4 hidden">
+                        <div class="flex items-start gap-3">
+                            <img id="playerLogo" class="w-16 h-16 rounded object-cover hidden">
+                            <div>
+                                <h3 id="playerTitle" class="text-lg font-medium"></h3>
+                                <p id="playerGroup" class="text-sm text-gray-400"></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="playerContainer">
+                        <video 
+                            id="videoPlayer" 
+                            controls 
+                            class="w-full bg-black rounded-lg hidden"
+                            style="max-height: 400px;"
+                        >
+                            Your browser does not support the video tag.
+                        </video>
+                        
+                        <div id="playerPlaceholder" class="flex items-center justify-center h-64 text-gray-500">
+                            <div class="text-center">
+                                <i class="fas fa-tv text-6xl mb-4 opacity-30"></i>
+                                <p class="font-medium">Select a channel to play</p>
+                                <p class="text-sm mt-2">Choose from the playlist</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="playerMeta" class="mt-4 space-y-2 text-sm hidden">
+                        <div class="flex items-center gap-2">
+                            <span class="text-gray-400">Format:</span>
+                            <span id="metaFormat" class="font-medium"></span>
+                            <span id="metaBadge"></span>
+                        </div>
+                        <div id="metaIdContainer" class="flex items-center gap-2 hidden">
+                            <span class="text-gray-400">ID:</span>
+                            <span id="metaId" class="font-mono text-xs"></span>
+                        </div>
+                        <div id="metaDrmContainer" class="flex items-center gap-2 hidden">
+                            <span class="text-gray-400">DRM:</span>
+                            <span id="metaDrm" class="text-orange-400 font-medium"></span>
+                        </div>
+                        <div id="metaPlayerType" class="flex items-center gap-2">
+                            <span class="text-gray-400">Player:</span>
+                            <span id="playerType" class="text-blue-400 font-medium"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Info Box -->
+        <div class="mt-6 bg-blue-900/30 border border-blue-500/50 rounded-lg p-4">
+            <h3 class="font-semibold mb-2 flex items-center gap-2 text-sm">
+                <i class="fas fa-info-circle"></i>
+                Player Information
+            </h3>
+            <div class="text-xs text-gray-300 space-y-2">
+                <p><strong>HLS.js:</strong> Used for non-DRM HLS (.m3u8) streams - Works in all browsers</p>
+                <p><strong>Shaka Player:</strong> Used for DRM content (ClearKey, Widevine, PlayReady) and DASH (.mpd)</p>
+                <p class="text-gray-400">The player automatically selects the best engine based on content type and DRM requirements.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let playlist = [];
+        let currentPlayer = null;
+        let hlsInstance = null;
+        let shakaPlayer = null;
+
+        const videoPlayer = document.getElementById('videoPlayer');
+        const fileInput = document.getElementById('fileInput');
+        const urlInput = document.getElementById('urlInput');
+        const loadUrlBtn = document.getElementById('loadUrlBtn');
+        const playlistContainer = document.getElementById('playlistContainer');
+        const errorMsg = document.getElementById('errorMsg');
+        const errorText = document.getElementById('errorText');
+        const groupFilter = document.getElementById('groupFilter');
+
+        // Parse M3U content
+        function parseM3U(content) {
+            const lines = content.split('\n').map(l => l.trim()).filter(l => l);
+            const items = [];
+            let currentEntry = {};
+
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+
+                if (line.startsWith('#EXTINF:')) {
+                    const match = line.match(/#EXTINF:(-?\d+)\s+(.+?),(.+)/);
+                    if (match) {
+                        currentEntry.title = match[3].trim();
+                        const attrs = match[2];
+                        
+                        const tvgIdMatch = attrs.match(/tvg-id="([^"]+)"/);
+                        const groupMatch = attrs.match(/group-title="([^"]+)"/);
+                        const logoMatch = attrs.match(/tvg-logo="([^"]+)"/);
+                        
+                        if (tvgIdMatch) currentEntry.tvgId = tvgIdMatch[1];
+                        if (groupMatch) currentEntry.group = groupMatch[1];
+                        if (logoMatch) currentEntry.logo = logoMatch[1];
+                    }
+                } else if (line.startsWith('#KODIPROP:inputstream.adaptive.license_type=')) {
+                    currentEntry.drmType = line.split('=')[1];
+                    currentEntry.isDRM = true;
+                } else if (line.startsWith('#KODIPROP:inputstream.adaptive.license_key=')) {
+                    currentEntry.licenseKey = line.split('=')[1];
+                    currentEntry.isDRM = true;
+                } else if (line.startsWith('#EXTVLCOPT:http-user-agent=')) {
+                    currentEntry.userAgent = line.split('=', 2)[1];
+                } else if (line.startsWith('http://') || line.startsWith('https://')) {
+                    currentEntry.url = line;
+                    
+                    if (line.includes('.mpd')) {
+                        currentEntry.type = 'mpd';
+                        currentEntry.format = 'DASH';
+                    } else if (line.includes('.m3u8')) {
+                        currentEntry.type = 'm3u8';
+                        currentEntry.format = 'HLS';
+                    } else {
+                        currentEntry.type = 'direct';
+                        currentEntry.format = 'Direct';
+                    }
+                    
+                    if (!currentEntry.title) {
+                        currentEntry.title = line.split('/').pop().split('?')[0] || 'Untitled';
+                    }
+                    
+                    currentEntry.isPlayable = true;
+                    items.push({ ...currentEntry, id: items.length });
+                    currentEntry = {};
+                }
+            }
+            
+            return items;
+        }
+
+        // Show error
+        function showError(message) {
+            errorText.textContent = message;
+            errorMsg.classList.remove('hidden');
+            setTimeout(() => {
+                errorMsg.classList.add('hidden');
+            }, 5000);
+        }
+
+        // Update stats
+        function updateStats() {
+            const stats = {
+                total: playlist.length,
+                drm: playlist.filter(i => i.isDRM).length,
+                playable: playlist.filter(i => i.isPlayable).length,
+                groups: new Set(playlist.map(i => i.group || 'Uncategorized')).size
+            };
+
+            document.getElementById('statTotal').textContent = stats.total;
+            document.getElementById('statPlayable').textContent = stats.playable;
+            document.getElementById('statDrm').textContent = stats.drm;
+            document.getElementById('statGroups').textContent = stats.groups;
+            document.getElementById('stats').classList.remove('hidden');
+        }
+
+        // Update group filter
+        function updateGroupFilter() {
+            const groups = ['all', ...new Set(playlist.map(i => i.group || 'Uncategorized'))];
+            groupFilter.innerHTML = groups.map(g => 
+                `<option value="${g}">${g === 'all' ? 'All Categories' : g}</option>`
+            ).join('');
+        }
+
+        // Render playlist
+        function renderPlaylist(filterGroup = 'all') {
+            const filteredPlaylist = filterGroup === 'all' 
+                ? playlist 
+                : playlist.filter(i => (i.group || 'Uncategorized') === filterGroup);
+
+            const grouped = {};
+            filteredPlaylist.forEach(item => {
+                const group = item.group || 'Uncategorized';
+                if (!grouped[group]) grouped[group] = [];
+                grouped[group].push(item);
+            });
+
+            let html = '';
+            for (const [group, items] of Object.entries(grouped)) {
+                html += `
+                    <div class="bg-gray-900/50 px-4 py-2 sticky top-0 z-10">
+                        <h3 class="text-sm font-semibold text-gray-300">${group} (${items.length})</h3>
+                    </div>
+                `;
+                
+                items.forEach(item => {
+                    const icon = item.isDRM 
+                        ? '<i class="fas fa-lock text-red-500"></i>' 
+                        : '<i class="fas fa-unlock text-green-500"></i>';
+                    
+                    const badge = item.isDRM
+                        ? `<span class="text-xs px-2 py-1 rounded bg-red-900/50 text-red-300 border border-red-500/50">DRM: ${item.drmType || 'Protected'}</span>`
+                        : '<span class="text-xs px-2 py-1 rounded bg-green-900/50 text-green-300 border border-green-500/50">Playable</span>';
+
+                    html += `
+                        <div class="p-3 hover:bg-gray-700/50 transition-colors border-b border-gray-700/50 cursor-pointer" data-id="${item.id}">
+                            <div class="flex items-start gap-3">
+                                ${item.logo ? `<img src="${item.logo}" alt="${item.title}" class="w-10 h-10 rounded object-cover flex-shrink-0" onerror="this.style.display='none'">` : ''}
+                                <div class="flex-shrink-0 mt-1">${icon}</div>
+                                <div class="flex-1 min-w-0">
+                                    <h3 class="font-medium text-sm truncate">${item.title}</h3>
+                                    <div class="flex flex-wrap items-center gap-2 mt-1">
+                                        <span class="text-xs text-gray-400">${item.format}</span>
+                                        ${badge}
+                                    </div>
+                                </div>
+                                <button class="flex-shrink-0 p-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors play-btn">
+                                    <i class="fas fa-play text-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            playlistContainer.innerHTML = html;
+
+            // Add click handlers
+            document.querySelectorAll('[data-id]').forEach(el => {
+                el.addEventListener('click', (e) => {
+                    const id = parseInt(el.dataset.id);
+                    const item = playlist.find(i => i.id === id);
+                    if (item) playVideo(item);
+                });
+            });
+        }
+
+        // Initialize Shaka Player
+        async function initShakaPlayer(item) {
+            if (!shaka.Player.isBrowserSupported()) {
+                showError('Browser not supported for DRM playback');
+                return false;
+            }
+
+            try {
+                // Destroy existing player
+                if (shakaPlayer) {
+                    await shakaPlayer.destroy();
+                }
+
+                shakaPlayer = new shaka.Player(videoPlayer);
+                currentPlayer = 'Shaka Player';
+
+                // Configure DRM
+                if (item.isDRM && item.drmType === 'clearkey' && item.licenseKey) {
+                    const [keyId, key] = item.licenseKey.split(':');
+                    shakaPlayer.configure({
+                        drm: {
+                            clearKeys: {
+                                [keyId]: key
+                            }
+                        }
+                    });
+                }
+
+                // Error handling
+                shakaPlayer.addEventListener('error', (event) => {
+                    console.error('Shaka Error:', event.detail);
+                    showError(`Playback error: ${event.detail.message || 'Unknown error'}`);
+                });
+
+                // Load video
+                await shakaPlayer.load(item.url);
+                console.log('Shaka Player loaded successfully');
+                return true;
+            } catch (err) {
+                console.error('Shaka Player error:', err);
+                showError(`Failed to load video: ${err.message}`);
+                return false;
+            }
+        }
+
+        // Initialize HLS.js
+        function initHlsJs(item) {
+            if (!Hls.isSupported()) {
+                // Fallback to native
+                if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
+                    videoPlayer.src = item.url;
+                    currentPlayer = 'Native HLS';
+                    return true;
+                }
+                showError('HLS not supported in this browser');
+                return false;
+            }
+
+            try {
+                // Destroy existing HLS instance
+                if (hlsInstance) {
+                    hlsInstance.destroy();
+                }
+
+                hlsInstance = new Hls({
+                    debug: false,
+                    enableWorker: true,
+                    lowLatencyMode: true,
+                });
+                currentPlayer = 'HLS.js';
+
+                hlsInstance.on(Hls.Events.ERROR, (event, data) => {
+                    console.error('HLS.js Error:', data);
+                    if (data.fatal) {
+                        showError(`HLS Error: ${data.type} - ${data.details}`);
+                    }
+                });
+
+                hlsInstance.loadSource(item.url);
+                hlsInstance.attachMedia(videoPlayer);
+
+                console.log('HLS.js loaded successfully');
+                return true;
+            } catch (err) {
+                console.error('HLS.js error:', err);
+                showError(`Failed to load video: ${err.message}`);
+                return false;
+            }
+        }
+
+        // Play video
+        async function playVideo(item) {
+            console.log('Playing:', item);
+            errorMsg.classList.add('hidden');
+
+            // Update UI
+            document.getElementById('playerPlaceholder').classList.add('hidden');
+            videoPlayer.classList.remove('hidden');
+            document.getElementById('playerInfo').classList.remove('hidden');
+            document.getElementById('playerMeta').classList.remove('hidden');
+
+            document.getElementById('playerTitle').textContent = item.title;
+            document.getElementById('playerGroup').textContent = item.group || '';
+            document.getElementById('metaFormat').textContent = item.format;
+            
+            if (item.logo) {
+                document.getElementById('playerLogo').src = item.logo;
+                document.getElementById('playerLogo').classList.remove('hidden');
+            } else {
+                document.getElementById('playerLogo').classList.add('hidden');
+            }
+
+            if (item.tvgId) {
+                document.getElementById('metaId').textContent = item.tvgId;
+                document.getElementById('metaIdContainer').classList.remove('hidden');
+            } else {
+                document.getElementById('metaIdContainer').classList.add('hidden');
+            }
+
+            if (item.isDRM) {
+                document.getElementById('metaDrm').textContent = item.drmType;
+                document.getElementById('metaDrmContainer').classList.remove('hidden');
+            } else {
+                document.getElementById('metaDrmContainer').classList.add('hidden');
+            }
+
+            const badge = item.isDRM
+                ? '<span class="text-xs px-2 py-1 rounded bg-red-900/50 text-red-300 border border-red-500/50">DRM Protected</span>'
+                : '<span class="text-xs px-2 py-1 rounded bg-green-900/50 text-green-300 border border-green-500/50">Non-DRM</span>';
+            document.getElementById('metaBadge').innerHTML = badge;
+
+            // Select player
+            let success = false;
+            
+            if (item.type === 'mpd' || (item.isDRM && item.drmType === 'clearkey')) {
+                // Use Shaka Player for DASH or DRM content
+                success = await initShakaPlayer(item);
+            } else if (item.type === 'm3u8') {
+                // Use HLS.js for HLS content
+                success = initHlsJs(item);
+            } else {
+                // Direct video
+                videoPlayer.src = item.url;
+                currentPlayer = 'Native HTML5';
+                success = true;
+            }
+
+            document.getElementById('playerType').textContent = currentPlayer;
+
+            if (success) {
+                videoPlayer.play().catch(err => {
+                    console.error('Play error:', err);
+                    showError('Failed to start playback. Click play button to start.');
+                });
+            }
+        }
+
+        // File upload handler
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                try {
+                    const content = event.target.result;
+                    playlist = parseM3U(content);
+                    updateStats();
+                    updateGroupFilter();
+                    renderPlaylist();
+                } catch (err) {
+                    showError('Error parsing M3U file: ' + err.message);
+                }
+            };
+            reader.readAsText(file);
+        });
+
+        // URL load handler
+        loadUrlBtn.addEventListener('click', async () => {
+            const url = urlInput.value.trim();
+            if (!url) {
+                showError('Please enter a valid URL');
+                return;
+            }
+
+            loadUrlBtn.disabled = true;
+            loadUrlBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch: ${response.status}`);
+                }
+
+                const content = await response.text();
+                playlist = parseM3U(content);
+                updateStats();
+                updateGroupFilter();
+                renderPlaylist();
+            } catch (err) {
+                showError('Error fetching M3U from URL: ' + err.message);
+            } finally {
+                loadUrlBtn.disabled = false;
+                loadUrlBtn.innerHTML = '<i class="fas fa-film"></i> <span>Load from URL</span>';
+            }
+        });
+
+        // URL input enter key
+        urlInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                loadUrlBtn.click();
+            }
+        });
+
+        // Group filter change
+        groupFilter.addEventListener('change', (e) => {
+            renderPlaylist(e.target.value);
+        });
+
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', () => {
+            if (hlsInstance) hlsInstance.destroy();
+            if (shakaPlayer) shakaPlayer.destroy();
+        });
+    </script>
+</body>
+</html>
