@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live HLS.js Player</title>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+</head>
+<body>
+  <h2>Live HLS Player</h2>
+
+  <video id="video" width="640" height="360" controls autoplay muted></video>
+
+  <script>
+    // ✅ Replace this with your LIVE .m3u8 URL
+    //const streamURL = "https://test-streams.mux.dev/live-streams/playlist.m3u8";
+    const streamURL = "https://live.dinesh29.com.np/stream/jiotvplus/starbharathd/master.m3u8";
+    //const streamURL = "https://amg01117-amg01117c1-amgplt0165.playout.now3.amagi.tv/playlist.m3u8"; //Working
+    //const streamURL = "https://z5ak-cmaflive.zee5.com/cmaf/live/2105510/ZEENEWSELE/master.m3u8?hdntl=exp=1759886492~acl=%2f*~data=hdntl~hmac=9593c5145d427982e72da45fc0a6b0016d124fd2da1c91e1f7591ffae43239b2"; //Not Working
+	
+    const video = document.getElementById('video');
+
+    if (Hls.isSupported()) {
+      const hls = new Hls({
+        liveDurationInfinity: true,   // Keeps stream live (no end)
+        enableWorker: true,           // Better performance
+        lowLatencyMode: true,         // Faster to live edge
+        backBufferLength: 90,         // Seconds to keep in buffer
+        maxLiveSyncPlaybackRate: 1.5  // Slight faster sync when lagging
+      });
+
+      hls.loadSource(streamURL);
+      hls.attachMedia(video);
+
+      hls.on(Hls.Events.MANIFEST_PARSED, function () {
+        console.log("✅ Live stream loaded");
+        video.play();
+      });
+
+      hls.on(Hls.Events.ERROR, function (event, data) {
+        console.error("❌ HLS.js error:", data);
+      });
+    } 
+    else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      // For Safari native HLS
+      video.src = streamURL;
+      video.play();
+    } 
+    else {
+      alert("HLS is not supported in this browser");
+    }
+  </script>
+</body>
+</html>
