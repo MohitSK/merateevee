@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Live HLS Player – Shaka</title>
+
+  <!-- Shaka Player -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.9.0/shaka-player.compiled.js"></script>
+
+  <style>
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    h2 {
+      background: #111;
+      padding: 12px;
+      margin: 0;
+    }
+    video {
+      width: 90%;
+      max-width: 800px;
+      margin: 20px auto;
+      display: block;
+      border-radius: 8px;
+      background: #000;
+    }
+  </style>
+</head>
+<body>
+  <h2>Live HLS Player (Shaka)</h2>
+
+  <video id="video" controls autoplay muted></video>
+
+  <script>
+    async function initApp() {
+      const video = document.getElementById('video');
+      const player = new shaka.Player(video);
+
+      // 🔗 Replace with your live URL
+      const manifestUri = 'https://live.dinesh29.com.np/stream/jiotvplus/starbharathd/master.m3u8';
+
+      // Optional: handle errors
+      player.addEventListener('error', (event) => {
+        console.error('❌ Shaka error:', event.detail);
+        alert('Error loading stream: ' + event.detail.code);
+      });
+
+      try {
+        await player.load(manifestUri);
+        console.log('✅ Stream loaded successfully');
+      } catch (err) {
+        console.error('❌ Load failed:', err);
+        alert('Load failed: ' + err);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (shaka.Player.isBrowserSupported()) {
+        initApp();
+      } else {
+        alert('Browser not supported for Shaka Player.');
+      }
+    });
+  </script>
+</body>
+</html>
