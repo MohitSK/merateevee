@@ -307,3 +307,45 @@ https://dbrb49pjoymg4.cloudfront.net/v1/master/3fec3e5cac39a52b2132f9c66c83dae04
 
 #EXTINF:-1 tvg-id="ts7" tvg-logo="https://tvpnlogopus.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/INBC43000071R_20240522T015915SQUARE.png" group-title="Movies",HOLLYWOOD DESI
 https://jmp2.uk/stvp-IN3800010SH
+
+#EXTINF: -1 tvg-id="(no tvg-id)" tvg-name="And Flix" tvg-logo="https://s4.gifyu.com/images/image8c255c8f4e981429.png" group-title="English Movie", &-Flix
+https://edge3-moblive.yuppcdn.net:443/drm/smil:nflixdrm.smil/chunklist_b996000.m3u8
+
+#EXTINF:-98 tvg-logo="https://yt3.ggpht.com/ytc/AKedOLS0XIuM3jYJPnjEFAdoBoqrDkEwev9LQL8HdM4w1Q=s900-c-k-c0x00ffffff-no-rj" group-title="Hindi", &Tv-2
+https://amg01117-amg01117c1-amgplt0165.playout.now3.amagi.tv/playlist.m3u8
+
+
+#EXTINF:-103 tvg-logo="http://jiotv.catchup.cdn.jio.com/dare_images/images/Star_Gold_HD.png" group-title="Hindi",Star Gold HD
+#http://xtv.ooo:8080/danyear12/am809100/66177
+#http://103.122.74.6:8888/hls/STAR.GOLD.HD.m3u8
+#http://xtv.ooo:8080/213112/213112/66177
+#http://xott.live:8080/17871787/17871787/66177
+https://portal-to-m3u-07.iptv07india.workers.dev/play.m3u8?id=3172
+
+
+#EXTINF:-1 group-title="India" tvg-logo="https://i.postimg.cc/rmBYB7GQ/Bhojpuri-Cinema.jpg",B4U Movies
+https://d3kdywbtdfbp9z.cloudfront.net/v1/manifest/93ce20f0f52760bf38be911ff4c91ed02aa2fd92/dff423e0-3c82-46d6-9ecb-3baa96b5694a/cd1f59d6-9b5d-43f0-bfb2-6ca9edc99f27/0.m3u8
+
+#EXTINF:-1 group-title="India" tvg-logo="https://i.postimg.cc/J4n7YN2D/Colors.jpg",Goldmines
+https://tvsen6.aynaott.com/Goldmines/index.m3u8
+
+#EXTINF:-1 group-title="India" tvg-logo="https://i.postimg.cc/J4n7YN2D/Colors.jpg",Goldmines Bollywood
+https://tvsen6.aynaott.com/GoldminesBollywood/index.m3u8
+
+#EXTINF:-1 group-title="India" tvg-logo="https://i.postimg.cc/J4n7YN2D/Colors.jpg",Goldmines Movies
+https://tvsen6.aynaott.com/GoldminesMovies/index.m3u8
+
+#EXTINF:-1 group-title="India" tvg-logo="https://i.postimg.cc/T3yTcTHZ/Sony-Max-HD.jpg",Shemaroo TV
+https://tvsen6.aynaott.com/ShemarooTV/index.m3u8
+
+#EXTINF:-1 group-title="Music" tvg-logo="https://i.postimg.cc/MGP3pRsh/Balle-Balle.jpg",B4U Music
+https://d3kdywbtdfbp9z.cloudfront.net/v1/manifest/93ce20f0f52760bf38be911ff4c91ed02aa2fd92/dff423e0-3c82-46d6-9ecb-3baa96b5694a/de456a2b-b6f5-4afe-a222-5d2d6e885526/0.m3u8
+
+#EXTINF:-1 group-title="Music" tvg-logo="https://i.postimg.cc/MGP3pRsh/Balle-Balle.jpg",B4U Music
+https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg01412-xiaomiasia-yrfmusic-xiaomi/playlist.m3u8
+
+#EXTINF:-1 group-title="Music" tvg-logo="https://i.imgur.com/rEhhYpe.png",Baraza Music TV
+https://rtmp.streams.ovh:1936/barazarelax/barazazararelax/barazarelax/playlist.m3u8
+
+#EXTINF:-1 tvg-logo="https://d2mxb63djushzm.cloudfront.net/images/andtv_Logo.png" tvg-id="24.7.Dummy.us" group-title="LGTV - United Kingdom",1290 &TV
+https://amg01117-amg01117c1-amgplt0029.playout.now3.amagi.tv/playlist/amg01117-amg01117c1-amgplt0029/playlist.m3u8?ads.appstoreurl=[APP_STOREURL]&ads.content_livestream=[CONTENT_LIVESTREAM]&ads.gdpr=[GDPR]&ads.iu=[IU]&ads.url=[URL]&ads.schain=[SCHAIN]&ads.usprivacy=[US_PRIVACY]&ads.coppa=[COPPA]&ads.ip=[IP]&ads.channel_name=[CHANNEL_NAME]&ads.devicetype=[DEVICE_TYPE]&ads.donotsell=[DNS]&ads.ifa=[IFA]&ads.lmt=[LMT]&ads.appname=[APP_NAME]&ads.devicemodel=[DEVICE_MODEL]&ads.bundleid=[APP_BUNDLE]&ads.country=[COUNTRY]&ads.ic=[IC]&ads.idtype=[IDTYPE]&ads.lat=[LMT]&ads.network_name=[NETWORK_NAME]&ads.appversion=[APP_VERSION]&ads.deviceid=[DEVICE_ID]&ads.gdprconsent=[GDPR_CONSENT]&ads.gpp=[GPP]&ads.gpp_sid=[GPP_SID]&ads.devicemake=[DEVICE_MAKE]&ads.ifatype=[IFA_TYPE]&ads.inv_partner_domain=[INV_PARTNER_DOMAIN]&ads.prodq=[PRODQ]&ads.targetad=[TARGETAD_ALLOWED]&ads.fck=[FCK]&ads.viewsize=[VIEWSIZE]&ads.givn=[NONCE]
