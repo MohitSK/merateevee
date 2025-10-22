@@ -349,3 +349,15 @@ https://rtmp.streams.ovh:1936/barazarelax/barazazararelax/barazarelax/playlist.m
 
 #EXTINF:-1 tvg-logo="https://d2mxb63djushzm.cloudfront.net/images/andtv_Logo.png" tvg-id="24.7.Dummy.us" group-title="LGTV - United Kingdom",1290 &TV
 https://amg01117-amg01117c1-amgplt0029.playout.now3.amagi.tv/playlist/amg01117-amg01117c1-amgplt0029/playlist.m3u8?ads.appstoreurl=[APP_STOREURL]&ads.content_livestream=[CONTENT_LIVESTREAM]&ads.gdpr=[GDPR]&ads.iu=[IU]&ads.url=[URL]&ads.schain=[SCHAIN]&ads.usprivacy=[US_PRIVACY]&ads.coppa=[COPPA]&ads.ip=[IP]&ads.channel_name=[CHANNEL_NAME]&ads.devicetype=[DEVICE_TYPE]&ads.donotsell=[DNS]&ads.ifa=[IFA]&ads.lmt=[LMT]&ads.appname=[APP_NAME]&ads.devicemodel=[DEVICE_MODEL]&ads.bundleid=[APP_BUNDLE]&ads.country=[COUNTRY]&ads.ic=[IC]&ads.idtype=[IDTYPE]&ads.lat=[LMT]&ads.network_name=[NETWORK_NAME]&ads.appversion=[APP_VERSION]&ads.deviceid=[DEVICE_ID]&ads.gdprconsent=[GDPR_CONSENT]&ads.gpp=[GPP]&ads.gpp_sid=[GPP_SID]&ads.devicemake=[DEVICE_MAKE]&ads.ifatype=[IFA_TYPE]&ads.inv_partner_domain=[INV_PARTNER_DOMAIN]&ads.prodq=[PRODQ]&ads.targetad=[TARGETAD_ALLOWED]&ads.fck=[FCK]&ads.viewsize=[VIEWSIZE]&ads.givn=[NONCE]
+
+#EXTINF:-1 tvg-id="" tvg-name="US Asian (Hindi) SET Max (S)" tvg-logo="" group-title="INDIA",US Asian (Hindi) SET Max (S)
+http://tvmate.icu:8080/1bang/bang1/125814
+
+#EXTINF:-1 tvg-id="" tvg-name="US (Hindi) Asian Sony Max 2 (S)" tvg-logo="" group-title="INDIA",US (Hindi) Asian Sony Max 2 (S)
+http://tvmate.icu:8080/12345350/42818253/125795
+
+#EXTINF:-1 tvg-id="bbcamerica.us" tvg-name="US BBC America" tvg-logo="https://b1.pngbarn.com/png/484/73/tv-channel-icons-pack-bbc-america-black-png-clip-art.png" group-title="USA ",US BBC America
+http://tvmate.icu:8080/1bang/bang1/20194
+
+#EXTINF:-1 tvg-id="" tvg-name="US Asian (Hindi) SAB TV (S)" tvg-logo="" group-title="INDIA",US Asian (Hindi) SAB TV (S)
+http://tvmate.icu:8080/1bang/bang1/125809
