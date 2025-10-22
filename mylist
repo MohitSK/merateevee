@@ -430,6 +430,10 @@ https://stream.kliv.fun/allplus18/z5/index.php?id=0-9-channel_2105335046|Referer
 #EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36
 https://stream.kliv.fun/allplus18/z5/index.php?id=0-9-9z5543514|Referer=https://www.zee5.com&Origin=https://www.zee5.com
 
+#EXTINF:-1 tvg-id="0-9-zeecafehd" tvg-logo="https://ltsk-cdn.s3.eu-west-1.amazonaws.com/jumpstart/Temp_Live/cdn/HLS/Channel/imageContent-11927-j9l5h5ko-v2/imageContent-11927-j9l5h5ko-m2.png" group-title="Entertainment", Zee Café HD
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36
+https://stream.kliv.fun/allplus18/z5/index.php?id=0-9-zeecafehd|Referer=https://www.zee5.com&Origin=https://www.zee5.com
+
 #KODIPROP:inputstream.adaptive.license_type=clearkey
 #KODIPROP:inputstream.adaptive.license_key=40f019b86241d23ef075633fd7f1e927:058dec845bd340178a388edd104a015e
 #EXTINF:-1 tvg-logo="https://tatalogo.pages.dev/562.png" group-title="Movies", Movies Now HD
