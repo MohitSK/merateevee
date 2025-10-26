@@ -790,8 +790,8 @@ https://stream.kliv.fun/allplus18/jtv/manifest.mpd?id=156
 
 #EXTINF:-1 tvg-id="1151" tvg-name="Star Gold Romance" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Star_Gold_Romance.png" group-title="JTV ☎️ Movies",Star Gold Romance
 #KODIPROP:inputstream=inputstream.adaptive
-#KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
-#KODIPROP:inputstream.adaptive.license_key=https://jkey.playlivtvlinks.workers.dev/?id=1151
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=ee6e9f18a6c155e3855700b34fa8436f:b670c81b0e4f7f19f1fbeac0eaa7fba8
 https://stream.kliv.fun/allplus18/jtv/manifest.mpd?id=1151
 
 #EXTINF:-1 tvg-id="1153" tvg-name="Star Gold Thrills" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Star_Gold_Thrills.png" group-title="JTV ☎️ Movies",Star Gold Thrills
