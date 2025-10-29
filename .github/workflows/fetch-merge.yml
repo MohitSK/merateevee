@@ -1,0 +1,48 @@
+name: Fetch and Merge Lists (Secure, Single Output)
+
+on:
+  schedule:
+    # Run every 12 hours
+    - cron: "0 */12 * * *"
+  workflow_dispatch:
+
+jobs:
+  fetch_merge:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Fetch data from secret URLs and merge directly
+        env:
+          URL1: "https://raw.githubusercontent.com/alex8875/m3u/refs/heads/main/jtv.m3u"
+          URL2: "https://raw.githubusercontent.com/alex8875/m3u/refs/heads/main/z5.m3u"
+          URL3: "https://raw.githubusercontent.com/mohitsk/merateevee/main/list1"
+        run: |
+          echo "Fetching and merging data..."
+          
+          # Fetch from all 3 URLs and merge directly into 'mylist'
+          {
+            curl -sL "$URL1"
+            echo ""
+            curl -sL "$URL2"
+            echo ""
+            curl -sL "$URL3"
+          } > mylist
+
+          # Clean up: remove duplicates & empty lines
+          #sort -u mylist | sed '/^$/d' > mylist.tmp && mv mylist.tmp mylist
+
+      - name: Commit and push changes if updated
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
+
+          if [[ -n "$(git status --porcelain mylist)" ]]; then
+            git add mylist
+            git commit -m "Updated mylist from secret URLs [$(date)]"
+            git push
+          else
+            echo "No changes to commit."
+          fi
