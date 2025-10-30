@@ -20,6 +20,7 @@ jobs:
           URL2: ${{ secrets.URL_2_Z5 }}
           URL3: ${{ secrets.URL_3_SONY }}
           URL4: "https://raw.githubusercontent.com/mohitsk/merateevee/main/list1"
+          URL5: "https://raw.githubusercontent.com/mohitsk/merateevee/main/oxoliv"
         run: |
           echo "Fetching and merging data..."
           
@@ -32,6 +33,8 @@ jobs:
             curl -sL "$URL3"
             echo ""
             curl -sL "$URL4"
+            echo ""
+            curl -sL "$URL5"
           } > mylist
 
           # Clean up: remove duplicates & empty lines
