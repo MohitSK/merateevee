@@ -16,10 +16,10 @@ jobs:
 
       - name: Fetch data from secret URLs and merge directly
         env:
-          URL1: "https://raw.githubusercontent.com/alex8875/m3u/refs/heads/main/jtv.m3u"
-          URL2: "https://raw.githubusercontent.com/alex8875/m3u/refs/heads/main/z5.m3u"
-          URL3: "https://raw.githubusercontent.com/mohitsk/merateevee/main/list1"
-          URL4: "https://raw.githubusercontent.com/himanshu-temp/m3u/refs/heads/main/sony.m3u"
+          URL1: ${{ secrets.URL_1_JSTAR }}
+          URL2: ${{ secrets.URL_2_Z5 }}
+          URL3: ${{ secrets.URL_3_SONY }}
+          URL4: "https://raw.githubusercontent.com/mohitsk/merateevee/main/list1"
         run: |
           echo "Fetching and merging data..."
           
