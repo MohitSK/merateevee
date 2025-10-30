@@ -19,6 +19,7 @@ jobs:
           URL1: "https://raw.githubusercontent.com/alex8875/m3u/refs/heads/main/jtv.m3u"
           URL2: "https://raw.githubusercontent.com/alex8875/m3u/refs/heads/main/z5.m3u"
           URL3: "https://raw.githubusercontent.com/mohitsk/merateevee/main/list1"
+          URL4: "https://raw.githubusercontent.com/himanshu-temp/m3u/refs/heads/main/sony.m3u"
         run: |
           echo "Fetching and merging data..."
           
@@ -29,6 +30,8 @@ jobs:
             curl -sL "$URL2"
             echo ""
             curl -sL "$URL3"
+            echo ""
+            curl -sL "$URL4"
           } > mylist
 
           # Clean up: remove duplicates & empty lines
