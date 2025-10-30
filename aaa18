@@ -5,6 +5,8 @@ http://31.148.48.15/French_Lover/playlist.m3u8
 #EXTINF:-1 tvg-id="3-AKT" tvg-name="French Lover (R)" 
 http://85.112.114.10:8087/udp/238.9.64.132:1234
 
+#EXTINF:-1 tvg-id="RUS" tvg-name="RUSSIAN"
+http://88b9da48.kazmazpaz.ru:80/iptv/FF38ZQWZHTSV8T4XX9RDZYLB/20090/manifest.m3u8
 
 #EXTINF:-1 tvg-id="GangBang" tvg-name="PornBox"
 http://206.212.244.71:8080/dwayne.usa@hotmail.com/9MGPKFX7XC/160048
