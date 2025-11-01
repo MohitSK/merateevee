@@ -16,7 +16,7 @@ jobs:
 
       - name: Fetch data from secret URLs and merge directly
         env:
-          URL1: ${{ secrets.URL_1_JSTAR }}
+          URL1: ${{ secrets.URL_6_JIOTVPLUS }}
           URL2: ${{ secrets.URL_2_Z5 }}
           URL3: ${{ secrets.URL_3_SONY }}
           URL4: "https://raw.githubusercontent.com/mohitsk/merateevee/main/list1"
