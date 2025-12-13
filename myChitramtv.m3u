@@ -1,0 +1,187 @@
+#EXTM3U
+#EXTINF:0,Star Movies
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18211
+#EXTINF:0,Discovery HD Multi Audio
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18220
+#EXTINF:0,And TV
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18221
+#EXTINF:0,Colors Bangla
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18236
+#EXTINF:0,Star Jalsha HD
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18237
+#EXTINF:0,Zee Bangla HD
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18238/
+#EXTINF:0,Colors Cineplex
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18296/
+#EXTINF:0,Star Gold Select
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18429
+#EXTINF:0,And Prive HD
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18494
+#EXTINF:0,And Pictures HD
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18510
+#EXTINF:0,Star Movies Select HD
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18548
+#EXTINF:0,Zee Cinema
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18808/
+#EXTINF:0,Sony TV
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18809/
+#EXTINF:0,Hungama TV
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18811
+#EXTINF:0,Sony Sports Ten 5 HD
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18818
+#EXTINF:0,Live Sports
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18818
+#EXTINF:0,Sony Max 2
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18841
+#EXTINF:0,Star Sports Tamil HD
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18844
+#EXTINF:0,Sony Sports Ten 3 HD
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18848
+#EXTINF:0,Live Sports
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18848
+#EXTINF:0,Zee TV
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18849
+#EXTINF:0,Star Plus
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18850/
+#EXTINF:0,Sony Max HD
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18851
+#EXTINF:0,Star Bharat HD
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18853
+#EXTINF:0,Star Gold
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18859/
+#EXTINF:0,Zee Bollywood
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18861/
+#EXTINF:0,Star Sports 2 HD.
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18882
+#EXTINF:0,Live Sports
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18882
+#EXTINF:0,Colors Rishtey
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18886/
+#EXTINF:0,Colors
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18890
+#EXTINF:0,MTV
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18901
+#EXTINF:0,Discovery Kids
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18902
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18908
+#EXTINF:0,DD Sports 1.0
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18922
+#EXTINF:0,Sony Sports Ten 1 HD
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18926
+#EXTINF:0,Live Sports
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18926
+#EXTINF:0,Sony Sports Ten 2 HD
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18927
+#EXTINF:0,Live Sports
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18927
+#EXTINF:0,Movies Now
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18935
+#EXTINF:0,MNX HD
+#EXTVLCOPT:network-caching=1000
+http://87.255.35.150:18936
+
+#EXTINF:0,Nick
+#EXTVLCOPT:network-caching=1000
+http://ctv.sungohd.com:18249
+#EXTINF:0,Disney JR
+#EXTVLCOPT:network-caching=1000
+http://ctv.sungohd.com:18251
+#EXTINF:0,Disney Channel
+#EXTVLCOPT:network-caching=1000
+http://ctv.sungohd.com:18251
+#EXTINF:0,Nick JR
+#EXTVLCOPT:network-caching=1000
+http://ctv.sungohd.com:18252
+#EXTINF:0,Disney XD
+#EXTVLCOPT:network-caching=1000
+http://ctv.sungohd.com:18262
+#EXTINF:0,Sony Yay
+#EXTVLCOPT:network-caching=1000
+http://ctv.sungohd.com:18285
+#EXTINF:0,Nick HD Plus
+#EXTVLCOPT:network-caching=1000
+http://ctv.sungohd.com:18393
+#EXTINF:0,And Flix HD
+#EXTVLCOPT:network-caching=1000
+http://ctv.sungohd.com:18492
+#EXTINF:0,And Prive
+#EXTVLCOPT:network-caching=1000
+http://ctv.sungohd.com:18494
+#EXTINF:0,Sony Pix HD
+#EXTVLCOPT:network-caching=1000
+http://ctv.sungohd.com:18495
+#EXTINF:0,Zee Cafe
+#EXTVLCOPT:network-caching=1000
+http://ctv.sungohd.com:18547
+#EXTINF:0,Star Sports 3
+#EXTVLCOPT:network-caching=1000
+http://ctv.sungohd.com:18804
+#EXTINF:0,Live Sports
+#EXTVLCOPT:network-caching=1000
+http://ctv.sungohd.com:18804
+#EXTINF:0,Colors Infinity SD
+#EXTVLCOPT:network-caching=1000
+http://ctv.sungohd.com:18838
+#EXTINF:0,Pogo
+#EXTVLCOPT:network-caching=1000
+http://ctv.sungohd.com:18862
+#EXTINF:0,Live Sports
+#EXTVLCOPT:network-caching=1000
+http://ctv.sungohd.com:18891
+#EXTINF:0,Star Sports 1 HD
+#EXTVLCOPT:network-caching=1000
+http://ctv.sungohd.com:18891
+#EXTINF:0,Live Sports
+#EXTVLCOPT:network-caching=1000
+http://ctv.sungohd.com:18892
+#EXTINF:0,Star Sports 2
+#EXTVLCOPT:network-caching=1000
+http://ctv.sungohd.com:18892
+#EXTINF:0,Star Sports Select 1
+#EXTVLCOPT:network-caching=1000
+http://ctv.sungohd.com:18893
+#EXTINF:0,Live Sports
+#EXTVLCOPT:network-caching=1000
+http://ctv.sungohd.com:18893
+#EXTINF:0,Star Sports Select 2
+#EXTVLCOPT:network-caching=1000
+http://ctv.sungohd.com:18952
