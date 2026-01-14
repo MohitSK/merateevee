@@ -16,13 +16,16 @@ jobs:
 
       - name: Fetch data from secret URLs and merge directly
         env:
-          URL1: ${{ secrets.URL_6_JIOTVPLUS }}
-          URL2: ${{ secrets.URL_2_Z5 }}
-          URL3: ${{ secrets.URL_3_SONY }}
+          #URL1: ${{ secrets.URL_6_JIOTVPLUS }}
+          URL1: ${{ secrets.URL_4_JTV }}
+          #URL2: ${{ secrets.URL_2_Z5 }}
+          URL2: ${{ secrets.URL_5_Z5 }}
+          #URL3: ${{ secrets.URL_3_SONY }}
           URL4: "https://raw.githubusercontent.com/mohitsk/merateevee/main/list1"
           URL5: "https://raw.githubusercontent.com/mohitsk/merateevee/main/oxoliv"
-        run: |
+        run: ${{ secrets.URL_2_Z5 }}
           echo "Fetching and merging data..."
+          echo 
           
           # Fetch from all 3 URLs and merge directly into 'mylist'
           {
