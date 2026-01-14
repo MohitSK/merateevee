@@ -25,7 +25,7 @@ jobs:
           URL5: "https://raw.githubusercontent.com/mohitsk/merateevee/main/oxoliv"
         run: |
           echo "Fetching and merging data..."
-          echo ${{ secrets.URL_2_Z5 }}
+          echo 
           
           # Fetch from all 3 URLs and merge directly into 'mylist'
           {
