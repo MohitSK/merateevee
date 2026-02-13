@@ -6,13 +6,13 @@
 #KODIPROP:inputstream.adaptive.license_type=clearkey
 #KODIPROP:inputstream.adaptive.license_key=f45e69507f0f5aa1a6e82374efb0af25:f84348219837769feb5a26a7b1cd31dc
 #EXTHTTP:{"cookie":"__hdnea__=st=1770958834~exp=1771045234~acl=/*~hmac=6dca8bbbc297722432217112ac317cd6d0bfcd8fb28569de9b9976cbda1a148a"}
-https://jiotvpllive.cdn.jio.com/bpk-tv/SonyBBCEarthHin_BTS/output/index.mpd
+https://jiotvpllive.cdn.jio.com/bpk-tv/SonyBBCEarthHin_BTS/output/index.mpd?__hdnea__=st=1770641732~exp=1770728132~acl=/*~hmac=4a8ba65bedd4972c04679a6fede7cda13f64fd25a8629cb7eccfedffb2d7934a
 
 #EXTINF:-1 tvg-logo="https://img.media.jio.com/tvpimages/66/40/302084_1753189751700_l_high.jpg",Star Plus
 #KODIPROP:inputstream.adaptive.license_type=clearkey
 #KODIPROP:inputstream.adaptive.license_key=3bba2ffaf08b501796c5d9eb431460a4:7a62074c4c46f3b153259526481c02bf
 #EXTHTTP:{"cookie":"__hdnea__=st=1770641732~exp=1770728132~acl=/*~hmac=4a8ba65bedd4972c04679a6fede7cda13f64fd25a8629cb7eccfedffb2d7934a"}
-https://jiotvpllive.cdn.jio.com/bpk-tv/Star_Plus_BTS/output/index.mpd?__hdnea__=st=1770641732~exp=1770728132~acl=/*~hmac=4a8ba65bedd4972c04679a6fede7cda13f64fd25a8629cb7eccfedffb2d7934a
+https://jiotvpllive.cdn.jio.com/bpk-tv/Star_Plus_BTS/output/index.mpd
 
 #EXTINF:-1 tvg-id="ts" tvg-logo="https://a.jsrdn.com/hls/23077/bollywood-classic/logo_20220801_200458_68.png" group-title="Movies",BollywooD Classic ᴴᴰ
 https://d35j504z0x2vu2.cloudfront.net:443/v1/master/0bc8e8376bd8417a1b6761138aa41c26c7309312/bollywood-classic/manifest.m3u8
