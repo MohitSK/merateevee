@@ -18,8 +18,8 @@ jobs:
         env:
           #URL1: ${{ secrets.URL_6_JIOTVPLUS }}
           #URL1: ${{ secrets.URL_4_JTV }}
-          URL1: ${{ secrets.URL_8_TEA }}
-          URL2: ${{ secrets.URL_2_Z5 }}
+          URL1: ${{ secrets.URL_8 }}
+          #URL2: ${{ secrets.URL_2_Z5 }}
           #URL3: ${{ secrets.URL_3_SONY }}
           URL4: "https://raw.githubusercontent.com/mohitsk/merateevee/main/list1"
           URL5: "https://raw.githubusercontent.com/mohitsk/merateevee/main/oxoliv"
@@ -31,8 +31,8 @@ jobs:
           {
             curl -sL "$URL1"
             echo ""
-            curl -sL "$URL2"
-            echo ""
+            #curl -sL "$URL2"
+            #echo ""
             #curl -sL "$URL3"
             #echo ""
             curl -sL "$URL4"
