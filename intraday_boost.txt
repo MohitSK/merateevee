@@ -1,0 +1,1 @@
+https://api.stockezee.com/api/Symbol/orb-range?type=marking
