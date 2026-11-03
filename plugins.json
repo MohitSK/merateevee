@@ -10,7 +10,7 @@
       "version": 1,
       "status": 1,
       "apiVersion": 1,
-      "language": "hi",
+      "language": "en",
       "tvTypes": ["Movie", "TvSeries"],
       "authors": ["Mohit"],
       "description": "PrMovies Hindi extension",
