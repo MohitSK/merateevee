@@ -9,7 +9,11 @@
       "internalName": "ExampleProvider",
       "version": 2,
       "status": 1,
+      "apiVersion": 1,
+      "language": "hi",
+      "tvTypes": ["Movie", "TvSeries"],
       "authors": ["Mohit"],
+      "description": "PrMovies Hindi extension",
       "url": "https://raw.githubusercontent.com/MohitSK/merateevee/main/ExampleProvider.cs3"
     }
   ]
