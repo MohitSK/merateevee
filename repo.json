@@ -1,5 +1,5 @@
 {
-  "name": "myMovieFlix",
+  "name": "myMovieFlix Repo",
   "description": "CloudStream extension that scrapes movies and pulls sources in parallel with a per-source timeout.",
   "manifestVersion": 1,
   "pluginLists": [
