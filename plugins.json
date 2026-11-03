@@ -3,19 +3,17 @@
         "url": "https://raw.githubusercontent.com/MohitSK/merateevee/main/ExampleProvider.cs3",
         "status": 1,
         "version": 1,
-        "name": "PrMovies",
+        "name": "myMovies",
         "internalName": "ExampleProvider",
         "authors": [
             "Mohit"
         ],
         "description": "PrMovies Hindi extension",
-        "fileSize": 11576,
         "language": "hi",
         "tvTypes": [
             "Movie",
             "TvSeries"
         ],
-        "apiVersion": 1,
-        "fileHash": "sha256-0abffbd36cb4a8bbbeeaf444d3790ae57e21b78fe525f598f67f1b872ded6893"
+        "apiVersion": 1
     }
 ]
