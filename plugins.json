@@ -1,12 +1,16 @@
-[
+{
+  "name": "Mohit's Repository",
+  "description": "My custom Cloudstream plugins",
+  "manifestVersion": 1,
+  "pluginLists": [],
+  "plugins": [
     {
-        "url": "https://raw.githubusercontent.com/MohitSK/merateevee/refs/heads/main/ExampleProvider.cs3",
-        "status": 1,
-        "version": 2,
-        "name": "myPrmovies1",
-        "internalName": "myPrmovies",
-        "authors": [
-            "Mohit"
-        ]
+      "name": "PrMovies",
+      "internalName": "ExampleProvider",
+      "version": 2,
+      "status": 1,
+      "authors": ["Mohit"],
+      "url": "https://raw.githubusercontent.com/MohitSK/merateevee/main/ExampleProvider.cs3"
     }
-]
+  ]
+}
