@@ -49,5 +49,22 @@
             "TvSeries"
         ],
         "apiVersion": 1
+    },
+    {
+        "url": "https://raw.githubusercontent.com/MohitSK/merateevee/main/Prmovies.cs3",
+        "status": 1,
+        "version": 1,
+        "name": "myPrmovies",
+        "internalName": "myPrmoviesProvider",
+        "authors": [
+            "Mohit"
+        ],
+        "description": "Under development myPrmovies Hindi Cloudstream extension",
+        "language": "hi",
+        "tvTypes": [
+            "Movie",
+            "TvSeries"
+        ],
+        "apiVersion": 1
     }
 ]
