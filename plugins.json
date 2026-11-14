@@ -16,7 +16,7 @@
         ],
         "apiVersion": 1
     },
-        {
+    {
         "url": "https://raw.githubusercontent.com/MohitSK/merateevee/main/Vegamovies.cs3",
         "status": 1,
         "version": 1,
@@ -26,6 +26,23 @@
             "Mohit"
         ],
         "description": "Under development myVegamovies Hindi Cloudstream extension",
+        "language": "hi",
+        "tvTypes": [
+            "Movie",
+            "TvSeries"
+        ],
+        "apiVersion": 1
+    },
+    {
+        "url": "https://raw.githubusercontent.com/MohitSK/merateevee/main/Rogmovies.cs3",
+        "status": 1,
+        "version": 1,
+        "name": "myRogmovies",
+        "internalName": "myRogProvider",
+        "authors": [
+            "Mohit"
+        ],
+        "description": "Under development myRogmovies Hindi Cloudstream extension",
         "language": "hi",
         "tvTypes": [
             "Movie",
