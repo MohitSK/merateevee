@@ -1,0 +1,8 @@
+https://vegamovies.lease             
+/|Latest Updates                   
+/web-series/netflix/|Netflix
+/web-series/amazon-prime-video/|Amazon Prime
+/web-series/apple-tv/|Apple Tv+
+/movies-by-genres/action/|Action
+/movies-by-genres/horror/|Horror
+# lines starting with # are ignored
