@@ -1,0 +1,8 @@
+https://rogmovies.autos             
+/|Latest Updates                   
+/web-series/netflix/|Netflix
+/web-series/amazon-prime-video/|Amazon Prime
+/web-series/amazon-prime-video/minitv/|miniTV
+/web-series/sonyliv/|Sony LIV
+/web-series/zee5-originals/|Zee5
+# lines starting with # are ignored
