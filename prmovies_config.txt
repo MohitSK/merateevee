@@ -9,5 +9,5 @@ https://prmovies.coupons
 
 /genre/bollywood/|Bollywood
 /genre/erotic-movies/|Erotic Movies|nsfw
-/genre/tv-shows/|Hot Series|nsfw"
+/genre/tv-shows/|Hot Series|nsfw
 /?s=ullu|Ullu Series|nsfw
