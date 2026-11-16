@@ -1,7 +1,13 @@
 https://prmovies.coupons
 /|Latest Updates
 /genre/dual-audio/|Dual Audio
+/genre/top-rated/|Top Rated
 /genre/web-series/|Web Series
+/director/netflix/|Netflix
+/director/amazon-prime/|Amazon Prime
+/director/zee5/|Zee5
+
 /genre/bollywood/|Bollywood
 /genre/erotic-movies/|Erotic Movies|nsfw
+/genre/tv-shows/|Hot Series|nsfw"
 /?s=ullu|Ullu Series|nsfw
