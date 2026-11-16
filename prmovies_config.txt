@@ -6,6 +6,13 @@ https://prmovies.coupons
 /director/netflix/|Netflix
 /director/amazon-prime/|Amazon Prime
 /director/zee5/|Zee5
+/genre/horror/|Horror
+/genre/mystery/|Mystery
+/genre/science-fiction/|Sci-Fi
+/genre/thriller/|Thriller
+/genre/action/|Action
+/genre/fantasy/|Fantasy
+/genre/comedy/|Comedy
 
 /genre/bollywood/|Bollywood
 /genre/erotic-movies/|Erotic Movies|nsfw
