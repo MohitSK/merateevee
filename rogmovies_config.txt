@@ -10,17 +10,17 @@ https://rogmovies.autos
 /movies-by-genres/animation|Animation
 /movies-by-genres/biography|Biography
 /movies-by-genres/comedy|Comedy
-/movies-by-genres/crime|Crime
+#/movies-by-genres/crime|Crime
 /movies-by-genres/documentary|Documentary
-/movies-by-genres/drama|Drama
-/movies-by-genres/family|Family
+#/movies-by-genres/drama|Drama
+#/movies-by-genres/family|Family
 /movies-by-genres/fantasy|Fantasy
 /movies-by-genres/history|History
 /movies-by-genres/horror|Horror
-/movies-by-genres/mystery|Mystery
-/movies-by-genres/romance|Romance
+#/movies-by-genres/mystery|Mystery
+#/movies-by-genres/romance|Romance
 /movies-by-genres/sci-fi|Sci-Fi
-/movies-by-genres/sport|Sport
+#/movies-by-genres/sport|Sport
 /movies-by-genres/thriller|Thriller
 /movies-by-genres/war|War           
 # lines starting with # are ignored
