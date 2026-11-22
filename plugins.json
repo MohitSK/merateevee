@@ -100,5 +100,22 @@
             "TvSeries"
         ],
         "apiVersion": 1
+    },
+    {
+        "url": "https://raw.githubusercontent.com/MohitSK/merateevee/main/VidRift.cs3",
+        "status": 1,
+        "version": 1,
+        "name": "VidRift",
+        "internalName": "MyVidRiftProvider",
+        "authors": [
+            "Mohit"
+        ],
+        "description": "Under development It provides links from various Provider Cloudstream extension",
+        "language": "hi",
+        "tvTypes": [
+            "Movie",
+            "TvSeries"
+        ],
+        "apiVersion": 1
     }
 ]
